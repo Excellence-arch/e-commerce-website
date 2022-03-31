@@ -1,72 +1,97 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { validEmail, validPhone } from '../Regex';
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-const SignUp = ({addNewCustomer, allCustomers}) => {
+const Signup = ({addNewCustomer}) => {
 
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [phoneError, setPhoneError] = useState("form-control");
-    const [showpwd, setShowpwd] = useState(false);
-    const [emailErr, setEmailErr] = useState("form-control");
-
-    // const phones = / ^([\w]{11})$ /
-
-    const handlePhone = (e) => {
-        setPhone(e.target.value);
-        if (validPhone.test(e.target.value)) {
-            setPhoneError("form-control is-valid");
-            // setPhoneError("success");
-        } else {
-            setPhoneError("form-control is-invalid")
+    const formik = useFormik({
+        initialValues: {
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            password: ""
+        },
+        // validate : (values) => {
+        //     let errors = {};
+        //     return errors
+        // },
+        validationSchema: Yup.object({
+            firstname: Yup.string().required("Required"),
+            lastname: Yup.string().required("Required"),
+            email: Yup.string().required("Required").email("Not an email"),
+            phone: Yup.number("").required("Required"),
+            password: Yup.string().required("Required")
+        }),
+        onSubmit : (values) => {
+            addNewCustomer(values);
+            formik.resetForm({values: ""})
         }
-    }
-
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
-        if (validEmail.test(e.target.value)) {
-            setEmailErr("form-control is-valid");
-        } else {
-            setEmailErr("form-control is-invalid");
-        }
-    }
-
-    const confirmDets = () => {
-        if ((emailErr === "form-control is-valid" && phoneError === "form-control is-valid") && (firstname && lastname && phone && email && password)) {
-            let found = allCustomers.find((val, i) => val.email === email || phone === val.phone)
-            if (!found) {
-                addNewCustomer({firstname, lastname, phone, email, password});
-                setFirstname("");
-                setLastname("");
-                setEmail("");
-                setPhone("");
-                setPassword("");
-                setEmailErr("form-control");
-                setPhoneError("form-control");
-            } else {
-                alert("this email of phone number has already been registered")
-            }
-        } else {
-            alert("Please fill in the appropriate details")
-        }
-    }
-
+    })
+    // console.log(formik)
   return (
     <>
         <section className="container">
-            <div className="row">
-                <div className="col-6 container mt-4 text-center">
-                    <input type="text" placeholder='Firstname' value={firstname} onChange={e => setFirstname(e.target.value)} className="form-control my-2" />
-                    <input type="text" placeholder='Lastname' value={lastname} onChange={e => setLastname(e.target.value)} className="form-control my-2" />
-                    <input type="text" placeholder='Phone Number' value={phone} onChange={e => handlePhone(e)}  className={`${phoneError} my-2`} />
-                    <input type="text" placeholder='Email' className={`${emailErr} my-2`} value={email} onChange={e => handleEmail(e)} />
-                    <input type={showpwd ? `text` : `password`} value={password} placeholder='Password' onChange={e => setPassword(e.target.value)} className="form-control my-2" />
-                    <input type="checkbox" onChange={() => setShowpwd(!showpwd)} /> <span>Show Password</span> <br />
-                    <button className="btn btn-success" onClick={confirmDets}>Submit</button> <br />
-                    <p>Already have an account? <Link to="/login">Login</Link> </p>
+            <div className="row mt-5">
+                <div className="col-6 container">
+                    <form onSubmit={formik.handleSubmit}>
+                        <label htmlFor="">Firstname: </label>
+                        <input 
+                        type="text" 
+                        className={(formik.touched.firstname && formik.errors.firstname) ? "my-2 form-control is-invalid" : "my-2 form-control"} 
+                        name='firstname'
+                        value={formik.values.firstname}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.firstname ? <div className="text-danger">{formik.errors.firstname}</div> : null}
+
+                        <label htmlFor="">Lastname: </label>
+                        <input 
+                        type="text" 
+                        className={(formik.touched.lastname && formik.errors.lastname) ? "my-2 form-control is-invalid" : "my-2 form-control"} 
+                        name='lastname'
+                        value={formik.values.lastname}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.lastname ? <div className="text-danger">{formik.errors.lastname}</div> : null}
+
+                        <label htmlFor="">Email: </label>
+                        <input 
+                        type="text"
+                        className={(formik.touched.email && formik.errors.email) ? "my-2 form-control is-invalid" : "my-2 form-control"} 
+                        name='email'
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.email ? <div className="text-danger">{formik.errors.email}</div> : null}
+
+                        <label htmlFor="">Phone Number: </label>
+                        <input 
+                        type="text"
+                        className={(formik.touched.phone && formik.errors.phone) ? "my-2 form-control is-invalid" : "my-2 form-control"} 
+                        name='phone'
+                        value={formik.values.phone}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.phone ? <div className="text-danger">{formik.errors.phone}</div> : null}
+
+                        <label htmlFor="">Password: </label>
+                        <input 
+                        type="text"
+                        className={(formik.touched.password && formik.errors.password) ? "my-2 form-control is-invalid" : "my-2 form-control"} 
+                        name='password'
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        />
+                        {formik.touched.password ? <div className="text-danger">{formik.errors.password}</div> : null}
+
+                        <button className="btn btn-success w-100 my-2" type='submit'>Submit</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -74,4 +99,4 @@ const SignUp = ({addNewCustomer, allCustomers}) => {
   )
 }
 
-export default SignUp;
+export default Signup;

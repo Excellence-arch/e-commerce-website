@@ -1,51 +1,9 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { validEmail } from '../Regex';
+import React from 'react'
 
-const Login = ({allCustomers, login}) => {
-
-    const [email, setEmail] = useState("");
-    const [showPwd, setShowPwd] = useState(false);
-    const [password, setPassword] = useState("");
-    const [emailErr, setEmailErr] = useState("");
-
-
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
-        if(validEmail.test(e.target.value)) {
-            setEmailErr("is-valid");
-        } else {
-            setEmailErr("is-invalid");
-        }
-    }
-
-    const confirmDets = () => {
-        let found = allCustomers.find((val, _) => val.email == email && val.password == password)
-        if(found) {
-            login(found);
-        } else {
-            alert("Invalid login details");
-        }
-        setEmail("");
-        setPassword("");
-    }
-
+const Login = () => {
   return (
-    <>
-        <section className="container">
-            <div className="row">
-                <div className={`col-6 container text-center`}>
-                    <input placeholder='Email' type="text" value={email} onChange={e => handleEmail(e)} className={`form-control ${emailErr} my-2`} />
-                    <input placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} type={showPwd ? "text" : "password"} className="form-control my-2" />
-                    <input type="checkbox" onClick={() => setShowPwd(!showPwd)} /> Show Password <br />
-                    <button className="btn btn-success" onClick={confirmDets}>Login</button>
-                    <br />
-                    <p>Don't have an account? <Link to="/sign-up">Sign up</Link> </p>
-                </div>
-            </div>
-        </section>
-    </>
+    <div>Login</div>
   )
 }
 
-export default Login;
+export default Login
