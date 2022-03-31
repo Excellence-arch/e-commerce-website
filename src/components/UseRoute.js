@@ -20,7 +20,7 @@ const UseRoute = ({addToCart, allGoods, allCustomers, increaseGood, decreaseGood
   return (
     <>
         <Routes>
-            <Route path='/' element={<Home addToCart={addToCart} allGoods={allGoods}/>} />
+            <Route path='' element={<Home addToCart={addToCart} allGoods={allGoods}/>} />
             <Route path="cart" element={<Carts allCustomers={allCustomers} />} />
         </Routes>
     </>

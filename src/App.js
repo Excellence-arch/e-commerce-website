@@ -62,7 +62,7 @@ const App = () => {
   const addToCart = (index, userId) => {
     let customize = allCustomers;
     let foundGood = customize[userId].goods.find((val, _) => val.name === allGoods[index].name);
-    console.log(foundGood)
+    // console.log(foundGood)
     let seeGood;
     if (!foundGood) {
       seeGood = {}
@@ -77,7 +77,7 @@ const App = () => {
       seeGood = foundGood;
       seeGood.qty++;
       customize[userId].goods[foundGood.id] = seeGood;
-      console.log(customize[userId].goods[foundGood.id]);
+      // console.log(customize[userId].goods[foundGood.id]);
     }
     setallCustomers(() => {
       localStorage.allCustomers = JSON.stringify(customize);

@@ -5,6 +5,7 @@ import { validEmail } from '../Regex';
 const Login = ({allCustomers, login}) => {
 
     const [email, setEmail] = useState("");
+    const [showPwd, setShowPwd] = useState(false);
     const [password, setPassword] = useState("");
     const [emailErr, setEmailErr] = useState("");
 
@@ -35,7 +36,8 @@ const Login = ({allCustomers, login}) => {
             <div className="row">
                 <div className={`col-6 container text-center`}>
                     <input placeholder='Email' type="text" value={email} onChange={e => handleEmail(e)} className={`form-control ${emailErr} my-2`} />
-                    <input placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} type="text" className="form-control my-2" />
+                    <input placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} type={showPwd ? "text" : "password"} className="form-control my-2" />
+                    <input type="checkbox" onClick={() => setShowPwd(!showPwd)} /> Show Password <br />
                     <button className="btn btn-success" onClick={confirmDets}>Login</button>
                     <br />
                     <p>Don't have an account? <Link to="/sign-up">Sign up</Link> </p>
