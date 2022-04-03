@@ -1,8 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-const NavBar = () => {
+const LoginNav = () => {
 
     const navigate = useNavigate();
+
+    let {id} = useParams();
 
   return (
     <div>
@@ -15,21 +17,20 @@ const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                    <Link to="/" className="nav-link" aria-current="page">Home</Link>
+                    <Link to={`/${id}/`} className="nav-link" aria-current="page">Home</Link>
                     </li>
                     <li className="nav-item">
-                    <Link to="/cart" className="nav-link">Cart</Link>
+                    <Link to={`/${id}/cart`} className="nav-link">Cart</Link>
                     </li>
-                    <li className="nav-item">
-                    <Link to="/admin/" className="nav-link">Admin</Link>
-                    </li>
+                    {/* <li className="nav-item">
+                    <Link to="" className="nav-link" aria-disabled="true">Disabled</Link>
+                    </li> */}
                 </ul>
                 <form className="d-flex">
                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                     <button className="mx-3 btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <button className="mx-3 btn btn-outline-success" onClick={()=> navigate('/login')} >Login</button>
-                <button className="btn btn-outline-success mx-3" onClick={()=> navigate('/sign-up')} >Sign Up</button>
+                <button className="btn btn-outline-success" onClick={() => navigate('/')} >Log out</button>
                 </div>
             </div>
         </nav>
@@ -37,4 +38,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar;
+export default LoginNav;

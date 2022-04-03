@@ -1,8 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import NavBar from './NavBar';
+import { Link } from 'react-router-dom';
 
-const Signup = ({addNewCustomer}) => {
+const Signup = ({addNewCustomer, allCustomers}) => {
+
+    const [showPwd, setShowPwd] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -12,10 +16,16 @@ const Signup = ({addNewCustomer}) => {
             phone: "",
             password: ""
         },
-        // validate : (values) => {
-        //     let errors = {};
-        //     return errors
-        // },
+        validate : (values) => {
+            let errors = {};
+            // console.log(allCustomers)
+            let found = allCustomers.find((val, _) => val.email === values.email);
+            if (found) {
+                errors.email = "Email already exist";
+            }
+            return errors
+            console.log(errors)
+        },
         validationSchema: Yup.object({
             firstname: Yup.string().required("Required"),
             lastname: Yup.string().required("Required"),
@@ -25,12 +35,13 @@ const Signup = ({addNewCustomer}) => {
         }),
         onSubmit : (values) => {
             addNewCustomer(values);
-            formik.resetForm({values: ""})
+            formik.resetForm({values: ""});
         }
     })
     // console.log(formik)
   return (
     <>
+        <NavBar/>
         <section className="container">
             <div className="row mt-5">
                 <div className="col-6 container">
@@ -81,7 +92,7 @@ const Signup = ({addNewCustomer}) => {
 
                         <label htmlFor="">Password: </label>
                         <input 
-                        type="text"
+                        type={showPwd ? `text` : `password`}
                         className={(formik.touched.password && formik.errors.password) ? "my-2 form-control is-invalid" : "my-2 form-control"} 
                         name='password'
                         value={formik.values.password}
@@ -90,7 +101,14 @@ const Signup = ({addNewCustomer}) => {
                         />
                         {formik.touched.password ? <div className="text-danger">{formik.errors.password}</div> : null}
 
+                        <div className="my-2">
+                            <input type="checkbox" onChange={()=> setShowPwd(!showPwd)} />
+                            <span> Show Password</span>
+                        </div>
+
                         <button className="btn btn-success w-100 my-2" type='submit'>Submit</button>
+
+                        <div className='text-center' >Already have an account? <Link className='text-decoration-none text-warning' to="/login" >Log in</Link> </div>
                     </form>
                 </div>
             </div>

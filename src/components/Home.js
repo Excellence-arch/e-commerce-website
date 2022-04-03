@@ -1,8 +1,15 @@
 import React from 'react'
+import { useParams } from 'react-router-dom';
+import LoginNav from './LoginNav';
+import NavBar from './NavBar';
 
 const Home = () => {
+  let {id} = useParams();
   return (
-    <div>Home</div>
+    <div>
+      {id ? <LoginNav/> : <NavBar/>}
+      Hello
+    </div>
   )
 }
 
