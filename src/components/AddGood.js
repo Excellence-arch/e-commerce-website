@@ -16,7 +16,7 @@ const AddGood = ({allGoods, addNewGood}) => {
             quantity: Yup.number().required("Required")
         }),
         onSubmit: (values) => {
-            values.img = values.img.slice(12);
+            values.img = `./assets/${values.img.slice(12)}`;
             addNewGood(values);
             formik.resetForm({values : ""})
         }
@@ -83,9 +83,7 @@ const AddGood = ({allGoods, addNewGood}) => {
                     name="img"
                     value={formik.values.img}
                     onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                     />
-                    {formik.errors.img && formik.touched.img ? <div className='text-danger' >{formik.errors.img}</div> : null}
                     
                     <div className="text-center"> <button type="submit" className='btn btn-success' > Add new good </button> </div>
                 </form>

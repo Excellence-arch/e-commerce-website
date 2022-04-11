@@ -25,7 +25,10 @@ const Login = ({allCustomers}) => {
       if(!foundPassword) {
         errors.password = "Incorrect password"
       }
-      setId(foundEmail.id)
+      if(foundEmail && foundPassword) {
+        //   console.log(foundEmail)
+        setId(foundEmail.id);
+      }
       return errors;
     },
     validationSchema : Yup.object({
@@ -33,7 +36,7 @@ const Login = ({allCustomers}) => {
       password: Yup.string().required("Required")
     }),
     onSubmit: (values) => {
-      navigate(`/${id}/`)
+      navigate(`/${id}`)
     }
   })
   return (

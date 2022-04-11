@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import NavBar from './NavBar';
 import { Link } from 'react-router-dom';
 
-const Signup = ({addNewCustomer, allCustomers}) => {
+const SignUp = ({addNewCustomer, allCustomers}) => {
 
     const [showPwd, setShowPwd] = useState(false);
 
@@ -117,4 +117,4 @@ const Signup = ({addNewCustomer, allCustomers}) => {
   )
 }
 
-export default Signup;
+export default SignUp;
